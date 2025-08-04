@@ -23,7 +23,7 @@ public class HangmanGame {
     private boolean hintUsed = false;
 
     public HangmanGame(){
-        loadScores();
+        loadScore();
     }
 
     public void startNewGame() {
@@ -45,9 +45,9 @@ public class HangmanGame {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("1. Начать новую игру");
+            System.out.println("1. Начать игру");
             System.out.println("2. Выход");
-            System.out.print("Выберете действие: ");
+            System.out.print("Выберите действие: ");
 
             String choice = scanner.nextLine();
 
@@ -55,7 +55,7 @@ public class HangmanGame {
                 startNewGame();
                 gameLoop(scanner);
             } else if (choice.equals("2")) {
-                saveScores();
+                saveScore();
                 System.out.println("До свидания!");
                 break;
             } else {
@@ -66,7 +66,7 @@ public class HangmanGame {
 
     public void gameLoop (Scanner scanner) {
         while (true) {
-            System.out.println("Введите букву или команду (/?помощь): ");
+            System.out.println("Введите букву или команду (помощь): ");
             String input = scanner.nextLine().toLowerCase();
 
             if (input.isEmpty()) {
@@ -90,7 +90,7 @@ public class HangmanGame {
 
             char letter = input.charAt(0);
             if (!Character.isLetter(letter)) {
-                System.out.println("Введите будку русского алфавита");
+                System.out.println("Введите букву русского алфавита");
                 continue;
             }
 
@@ -165,7 +165,7 @@ public class HangmanGame {
         System.out.println("/ - подсказка, открывает одну букву (уменьшает на 2 попытки)");
     }
 
-    private void loadScores(){
+    private void loadScore(){
         try {
             Scanner fileScanner = new Scanner(new File(SCORES_FILE));
             gamesPlayed = fileScanner.nextInt();
@@ -181,7 +181,7 @@ public class HangmanGame {
         }
     }
 
-    private void saveScores(){
+    private void saveScore(){
         try (PrintWriter writer = new PrintWriter(SCORES_FILE)){
             writer.println(gamesPlayed);
             writer.println(gamesWon);
