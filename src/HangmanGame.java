@@ -66,7 +66,7 @@ public class HangmanGame {
 
     public void gameLoop (Scanner scanner) {
         while (true) {
-            System.out.println("Введите букву или команду (помощь): ");
+            System.out.println("Введите букву или команду (/? - помощь): ");
             String input = scanner.nextLine().toLowerCase();
 
             if (input.isEmpty()) {
@@ -161,7 +161,6 @@ public class HangmanGame {
 
     private void printHelp(){
         System.out.println("Доступные команды:");
-        System.out.println("/? - помощь");
         System.out.println("/ - подсказка, открывает одну букву (уменьшает на 2 попытки)");
     }
 
