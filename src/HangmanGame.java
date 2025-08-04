@@ -17,6 +17,109 @@ public class HangmanGame {
     private int gamesLost = 0;
     private boolean hintUsed = false;
 
+    public HangmanGame(){
+        loadScores();
+    }
+
+    public void startNewGame() {
+        Random random = new Random();
+        secretWord = WORDS[random.nextInt(WORDS.length)];
+        guessedLetters = new char[secretWord.length()];
+        Arrays.fill(guessedLetters, '_');
+        usedLetters = new HashSet<>();
+        attempts = MAX_ATTEMPTS;
+        hintUsed = false;
+
+        System.out.println("Новая игра!");
+        System.out.println("Слово содержит " + secretWord.length() + " букв");
+
+        printGameState();
+    }
+
+    public void play() {
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("1. Начать новую игру");
+            System.out.println("2. Выход");
+            System.out.print("Выберете действие: ");
+
+            String choice = scanner.nextLine();
+
+            if (choice.equals("1")) {
+                startNewGame();
+                gameLoop(scanner);
+            } else if (choice.equals("2")) {
+                saveScores();
+                System.out.println("До свидания!");
+                break;
+            } else {
+                System.out.println("Выберете 1 или 2 действие");
+            }
+        }
+    }
+
+    public void gameLoop (Scanner scanner) {
+        while (true) {
+            System.out.println("Введите букву или команду (/?помощь): ");
+            String input = scanner.nextLine().toLowerCase();
+
+            if (input.isEmpty()) {
+                continue;
+            }
+
+            if (input.equals("/?")) {
+                printHelp();
+                continue;
+            }
+
+            if (input.equals("/") && !hintUsed) {
+                useHint();
+                continue;
+            }
+
+            if (input.length() != 1) {
+                System.out.println("Введите одну букву");
+                continue;
+            }
+
+            char letter = input.charAt(0);
+            if (!Character.isLetter(letter)) {
+                System.out.println("Введите будку русского алфавита");
+                continue;
+            }
+
+            if (usedLetters.contains(letter)) {
+                System.out.println("Вы вводили эту букву");
+                continue;
+            }
+
+            usedLetters.add(letter);
+
+            if (secretWord.indexOf(letter) >= 0) {
+                System.out.println("Буква '" + letter + "' есть в слове:)");
+                updateGuessedLetters(letter);
+            } else {
+                System.out.println("Такой буквы '" + letter + "' нет в слове:(");
+                attempts--;
+            }
+            printGameState();
+
+            if (isWordGuessed()) {
+                System.out.println("Поздравляем! Вы угадали слово: " + secretWord);
+                gamesWon++;
+                break;
+            }
+
+            if (attempts == 0) {
+                System.out.println("К сожалению, вы не угали слово:( Загаданное слово: " + secretWord);
+                gamesLost++;
+                break;
+            }
+        }
+        gamesPlayed++;
+    }
+
     //методы
     private void updateGuessedLetters(char letter){
         for (int i = 0; i <secretWord.length(); i++){
