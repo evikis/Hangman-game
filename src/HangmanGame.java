@@ -183,9 +183,9 @@ public class HangmanGame {
 
     private void saveScores(){
         try (PrintWriter writer = new PrintWriter(SCORES_FILE)){
-            writer.println("Количесво игр: "+gamesPlayed);
-            writer.println("Выиграл: "+gamesWon);
-            writer.println("Проиграл: "+gamesLost);
+            writer.println(gamesPlayed);
+            writer.println(gamesWon);
+            writer.println(gamesLost);
         } catch (IOException e) {
             System.err.println("Не удалось сохранить результаты:(");
         }
