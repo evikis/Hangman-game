@@ -4,6 +4,11 @@ import java.io.PrintWriter;
 import java.util.*;
 
 public class HangmanGame {
+    public static void main(String[] args) {
+        HangmanGame game = new HangmanGame();
+        game.play();
+    }
+
     private static final String[] WORDS = {"программирование", "приключение", "гитара", "космос", "путешествие", "телефон", "зеркало", "ключи", "помада"};
     private static final int MAX_ATTEMPTS = 7;
     private static final String SCORES_FILE = "hangman_scores.txt";
